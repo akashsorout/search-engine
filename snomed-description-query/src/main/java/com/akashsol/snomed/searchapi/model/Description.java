@@ -1,7 +1,9 @@
 package com.akashsol.snomed.searchapi.model;
 
-import java.util.Date;
+import org.springframework.data.elasticsearch.annotations.Document;
 
+
+@Document(indexName = "snomedct", type = "description")
 public class Description extends CoreComponent{
 		
 		private	Long conceptId;
@@ -15,8 +17,7 @@ public class Description extends CoreComponent{
 		}
 		
 		
-		
-		public Description(Long id,Date effectiveTime, byte active, Long moduleId,Long conceptId, String languageCode, Long typeId, String term, Long caseSignificanceId) {
+		public Description(Long id,String effectiveTime, Byte active, Long moduleId,Long conceptId, String languageCode, Long typeId, String term, Long caseSignificanceId) {
 			super( id, effectiveTime,  active,  moduleId);
 			this.conceptId = conceptId;
 			this.languageCode = languageCode;

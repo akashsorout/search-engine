@@ -1,16 +1,18 @@
 package com.akashsol.snomed.searchapi.model;
 
-import java.util.Date;
+
+import org.springframework.data.annotation.Id;
 
 public abstract class CoreComponent extends Component {
 
+	@Id
 	protected Long id;
 
 	protected CoreComponent() {
 		
 	}
 	
-	protected CoreComponent(Long id,Date effectiveTime, byte active, Long moduleId) {
+	protected CoreComponent(Long id,String effectiveTime, byte active, Long moduleId) {
 		super(effectiveTime, active, moduleId);
 		this.id = id;
 	}

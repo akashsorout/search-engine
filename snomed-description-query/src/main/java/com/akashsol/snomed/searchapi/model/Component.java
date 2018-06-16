@@ -1,10 +1,8 @@
 package com.akashsol.snomed.searchapi.model;
 
-import java.util.Date;
-
 public abstract class Component {
 
-	protected Date effectiveTime;
+	protected String effectiveTime;
 	protected byte active;
 	protected Long moduleId;
 	
@@ -13,18 +11,19 @@ public abstract class Component {
 	}
 	
 	
-	protected Component(Date effectiveTime, byte active, Long moduleId) {
+	protected Component(String effectiveTime2, byte active, Long moduleId) {
 		super();
-		this.effectiveTime = effectiveTime;
+		this.effectiveTime = effectiveTime2;
 		this.active = active;
 		this.moduleId = moduleId;
 	}
 	
 	
-	public Date getEffectiveTime() {
+	public String getEffectiveTime() {
+		
 		return effectiveTime;
 	}
-	public void setEffectiveTime(Date effectiveTime) {
+	public void setEffectiveTime(String effectiveTime) {
 		this.effectiveTime = effectiveTime;
 	}
 	public byte getActive() {
