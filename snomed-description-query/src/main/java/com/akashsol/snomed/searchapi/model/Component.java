@@ -3,7 +3,7 @@ package com.akashsol.snomed.searchapi.model;
 public abstract class Component {
 
 	protected String effectiveTime;
-	protected byte active;
+	protected int active;
 	protected Long moduleId;
 	
 	protected Component() {
@@ -11,7 +11,7 @@ public abstract class Component {
 	}
 	
 	
-	protected Component(String effectiveTime2, byte active, Long moduleId) {
+	protected Component(String effectiveTime2, int active, Long moduleId) {
 		super();
 		this.effectiveTime = effectiveTime2;
 		this.active = active;
@@ -26,10 +26,10 @@ public abstract class Component {
 	public void setEffectiveTime(String effectiveTime) {
 		this.effectiveTime = effectiveTime;
 	}
-	public byte getActive() {
+	public int getActive() {
 		return active;
 	}
-	public void setActive(byte active) {
+	public void setActive(int active) {
 		this.active = active;
 	}
 	public Long getModuleId() {

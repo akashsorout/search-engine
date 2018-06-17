@@ -1,6 +1,8 @@
-package com.akashsol.snomed.searchapi.model;
+package com.akashsol.snomed.searchapi.util;
 
-public class CompResponse {
+import com.akashsol.snomed.searchapi.model.Description;
+
+public class SearchResultModel {
 
 	Description description;
 	float score;

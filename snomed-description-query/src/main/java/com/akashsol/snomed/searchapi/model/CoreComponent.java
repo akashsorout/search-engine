@@ -12,7 +12,7 @@ public abstract class CoreComponent extends Component {
 		
 	}
 	
-	protected CoreComponent(Long id,String effectiveTime, byte active, Long moduleId) {
+	protected CoreComponent(Long id,String effectiveTime, int active, Long moduleId) {
 		super(effectiveTime, active, moduleId);
 		this.id = id;
 	}
