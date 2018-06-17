@@ -8,18 +8,6 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 
 @Configuration
 public class ElasticSearchConfig {
-
-//	@Bean 
-//	public Node node() {
-//		return new NodeBuilder().local(true).node();
-//	}
-//	
-//	
-//	@Bean Client client() {
-//		return node().client();
-//	}
-//	
-//	
 	
 	@Bean
 	public ElasticsearchOperations elasticsearchTemplate(){

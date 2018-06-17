@@ -1,19 +1,21 @@
 package com.akashsol.snomed.searchapi.util;
 
-import com.akashsol.snomed.searchapi.model.Description;
+public class SearchResultModel<T> {
 
-public class SearchResultModel {
-
-	Description description;
+	T component;
 	float score;
 	
 	
-	public Description getDescription() {
-		return description;
+	
+	
+	public T getComponent() {
+		return component;
 	}
-	public void setDescription(Description description) {
-		this.description = description;
+	
+	public void setComponent(T component) {
+		this.component = component;
 	}
+	
 	public float getScore() {
 		return score;
 	}

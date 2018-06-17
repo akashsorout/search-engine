@@ -2,23 +2,18 @@ package com.akashsol.snomed.searchapi.util;
 
 import java.util.List;
 
-public class ResponseModel {
+public class ResponseModel<T> {
 	
-	List<SearchResultModel> listCompResponse;
 	long count;
+	List<SearchResultModel<T>> hitResults;
 	
 	
-	public List<SearchResultModel> getListCompResponse() {
-		return listCompResponse;
+	public List<SearchResultModel<T>> getHitResults() {
+		return hitResults;
 	}
-	public void setListCompResponse(List<SearchResultModel> listCompResponse) {
-		this.listCompResponse = listCompResponse;
+	public void setHitResults(List<SearchResultModel<T>> hitResults) {
+		this.hitResults = hitResults;
 	}
-
-	public void addCompResponse(SearchResultModel compResponse) {
-		this.listCompResponse.add(compResponse);
-	}
-	
 	public long getCount() {
 		return count;
 	}

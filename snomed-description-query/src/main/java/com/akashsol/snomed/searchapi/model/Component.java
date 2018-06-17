@@ -4,14 +4,14 @@ public abstract class Component {
 
 	protected String effectiveTime;
 	protected int active;
-	protected Long moduleId;
+	protected String moduleId;
 	
 	protected Component() {
 		
 	}
 	
 	
-	protected Component(String effectiveTime2, int active, Long moduleId) {
+	protected Component(String effectiveTime2, int active, String moduleId) {
 		super();
 		this.effectiveTime = effectiveTime2;
 		this.active = active;
@@ -32,10 +32,10 @@ public abstract class Component {
 	public void setActive(int active) {
 		this.active = active;
 	}
-	public Long getModuleId() {
+	public String getModuleId() {
 		return moduleId;
 	}
-	public void setModuleId(Long moduleId) {
+	public void setModuleId(String moduleId) {
 		this.moduleId = moduleId;
 	}
 

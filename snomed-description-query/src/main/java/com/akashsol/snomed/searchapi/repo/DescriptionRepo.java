@@ -7,6 +7,6 @@ import com.akashsol.snomed.searchapi.model.Description;
 
 
 @Repository
-public interface DescriptionRepo extends ElasticsearchCrudRepository<Description, Long>{
+public interface DescriptionRepo extends ElasticsearchCrudRepository<Description, String>{
 
 }

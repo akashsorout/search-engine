@@ -1,6 +1,7 @@
 package com.akashsol.snomed.searchapi.service;
 
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,49 +36,56 @@ public class DescriptionSearchService {
 	private ElasticsearchTemplate elasticsearchTemplate;
 	
 
-	public ResponseModel getDescriptions(String term, Long typeId) {
+	public ResponseModel<Description> getDescriptions(String term, String typeId) {
 	
 		 BoolQueryBuilder bqb=new BoolQueryBuilder();
 		
 		term=term.trim().replaceAll(" +", " ");
-		for (String sterm : term.split(" ")) {
-	
-			bqb.must(QueryBuilders.queryStringQuery(sterm.trim()+"*").field("term").analyzeWildcard(true)
-			.defaultOperator(org.elasticsearch.index.query.QueryStringQueryBuilder.Operator.AND));
-		}
 		
-			NativeSearchQueryBuilder qBuild =new NativeSearchQueryBuilder()
-									.withQuery(bqb);
+		Arrays.asList(term.split(" ")).forEach(sterm -> 	
+		
+			bqb.must(QueryBuilders.queryStringQuery(sterm.trim()+"*").field("term").analyzeWildcard(true)
+			.defaultOperator(org.elasticsearch.index.query.QueryStringQueryBuilder.Operator.AND))
 			
-							if(typeId!=null && typeId!=0)		
-								qBuild.withFilter(QueryBuilders.termQuery("typeId", typeId));
+				);
+		
+		
+					NativeSearchQueryBuilder qBuild =new NativeSearchQueryBuilder().withQuery(bqb);
+			
+					if(typeId!=null)		
+						qBuild.withFilter(QueryBuilders.termQuery("typeId", typeId));
 						
 			SearchQuery query=qBuild.build();
 					
-			return elasticsearchTemplate.query(query, new ResultsExtractor<ResponseModel>() {
+			return elasticsearchTemplate.query(query, new ResultsExtractor<ResponseModel<Description>>() {
 
 			    @Override
-			    public ResponseModel extract(SearchResponse response) {
+			    public ResponseModel<Description> extract(SearchResponse response) {
 			    	
-			    		ResponseModel searchResult = new ResponseModel();
+			    		ResponseModel<Description> res = new ResponseModel<Description>();
 			        long totalHits = response.getHits().totalHits();
-			        searchResult.setCount(totalHits);
-			        List<SearchResultModel> compResponses = new LinkedList<SearchResultModel>();
+			        res.setCount(totalHits);
+			        List<SearchResultModel<Description>> lstHitResult = new LinkedList<SearchResultModel<Description>>();
+			        
+			        ObjectMapper mapper = new ObjectMapper();
+			        Description description = null;
+			        SearchResultModel<Description> hitResult = null;
+			        
 			        for (SearchHit hit : response.getHits()) {
 			            if (hit != null) {
+					            	
+					            	description = mapper.convertValue(hit.getSource(), Description.class);
+					            	
+					            	hitResult = new SearchResultModel<Description>();
+					            	hitResult.setComponent(description);
+					            	hitResult.setScore(hit.getScore());
+					            	
+					            	lstHitResult.add(hitResult);
 			            	
-			            	ObjectMapper mapper = new ObjectMapper();
-			            	Description desc = mapper.convertValue(hit.getSource(), Description.class);
-			            	
-			            	SearchResultModel compResponse = new SearchResultModel();
-			            	compResponse.setDescription(desc);
-			            	compResponse.setScore(hit.getScore());
-			            	
-			            	compResponses.add(compResponse);
 			            }
 			        }
-			        searchResult.setListCompResponse(compResponses);;
-			        return searchResult;
+			        res.setHitResults(lstHitResult);
+			        return res;
 			    }
 			});
 			  
@@ -88,14 +96,18 @@ public class DescriptionSearchService {
 		
 		elasticsearchTemplate.deleteIndex("snomedct");
 		
-		descriptionRepo.save(new Description((Long)2075011L,"20020131", 1, (Long)900000000000207008L, (Long)602001L, "en", (Long)900000000000013009L, "Ross river fever", (Long)900000000000017005L));
-		descriptionRepo.save(new Description((Long)3572010L, "20020131", 1, (Long)900000000000207008L, (Long)1475003L, "en", (Long)900000000000013009L, "Fever blister", (Long)900000000000020002L));
-		descriptionRepo.save(new Description((Long)44007011L, "20020131", 1, (Long)900000000000207008L, (Long)26275000L, "en", (Long)900000000000013009L, "Fever due to Leptospira autumnalis", (Long)900000000000020002L));
+		List<Description> lstDescforIndex =Arrays.asList(
+				new Description("2075011","20020131", 1, "900000000000207008", "602001", "en", "900000000000013009", "Ross river fever", "900000000000017005"),
+				new Description("3572010", "20020131", 1, "900000000000207008", "1475003", "en", "900000000000013009", "Fever blister", "900000000000020002"),
+				new Description("44007011", "20020131", 1, "900000000000207008", "26275000", "en", "900000000000013009", "Fever due to Leptospira autumnalis", "900000000000020002"),
+				new Description("514391014", "20020131", 1, "900000000000207008", "135882008", "en", "900000000000003001", "Feverish cold (finding)", "900000000000020002"),
+				new Description("514392019", "20020131", 1, "900000000000207008", "135883003", "en", "900000000000003001", "Cough with fever (finding)", "900000000000020002")
+				);
 		
 		
-		descriptionRepo.save(new Description((Long)514391014L, "20020131", 1, (Long)900000000000207008L, (Long)135882008L, "en", (Long)900000000000003001L, "Feverish cold (finding)", (Long)900000000000020002L));	
-		descriptionRepo.save(new Description((Long)514392019L, "20020131", 1, (Long)900000000000207008L, (Long)135883003L, "en", (Long)900000000000003001L, "Cough with fever (finding)", (Long)900000000000020002L));
-	
+		lstDescforIndex.forEach(desc -> descriptionRepo.save(desc));
+		
+
 	};
 	
 }

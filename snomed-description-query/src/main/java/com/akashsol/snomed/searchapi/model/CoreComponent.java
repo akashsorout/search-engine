@@ -6,23 +6,23 @@ import org.springframework.data.annotation.Id;
 public abstract class CoreComponent extends Component {
 
 	@Id
-	protected Long id;
+	protected String id;
 
 	protected CoreComponent() {
 		
 	}
 	
-	protected CoreComponent(Long id,String effectiveTime, int active, Long moduleId) {
+	protected CoreComponent(String id,String effectiveTime, int active, String moduleId) {
 		super(effectiveTime, active, moduleId);
 		this.id = id;
 	}
 
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	
